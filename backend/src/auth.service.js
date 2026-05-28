@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
-const env = require('../config/env');
-const { validateTelegramInitData } = require('../utils/tgValidation');
-const userRepository = require('../repositories/user.repository');
-const APIError = require('../utils/apiError');
+const env = require('./config/env');
+const { validateTelegramInitData } = require('./utils/tgValidation');
+const userRepository = require('./user.repository');
+const APIError = require('./utils/apiError');
 
 exports.loginWithTelegram = async (initData) => {
   const isValid = validateTelegramInitData(initData, env.TELEGRAM_BOT_TOKEN);

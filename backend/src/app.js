@@ -4,8 +4,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const env = require('./config/env');
-const mainRouter = require('./routes');
-const errorHandler = require('./middleware/error.middleware');
+const routes = require('./routes'); // Головний роутер
+const errorHandler = require('./middleware/error.middleware'); // Обробник помилок
 
 const app = express();
 
@@ -29,7 +29,7 @@ const limiter = rateLimit({
 app.use('/api/', limiter);
 
 // Mount main router for any additional routes (currently empty, but good practice)
-app.use('/api', mainRouter);
+app.use('/api', routes);
 
 // Global Error Handler
 app.use(errorHandler);

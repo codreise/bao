@@ -1,5 +1,5 @@
-const productRepository = require('../repositories/product.repository');
-const APIError = require('../utils/apiError');
+const productRepository = require('./product.repository');
+const APIError = require('./utils/apiError');
 
 exports.listProducts = async () => {
   return await productRepository.findAll();

@@ -46,8 +46,8 @@ export const AuthProvider = ({ children }) => {
 
   const checkUserAuth = async () => {
     try {
-      // Now check if the user is authenticated
       setIsLoadingAuth(true);
+      // Direct call to our custom API
       const currentUser = await api.get('/auth/me');
       setUser(currentUser);
       setIsAuthenticated(true);
@@ -90,12 +90,12 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider value={{ 
       user, 
       isAuthenticated, 
-      isLoadingAuth,
+      isLoadingAuth, 
       authError,
       authChecked,
       logout,
       navigateToLogin,
-      checkUserAuth
+      checkUserAuth 
     }}>
       {children}
     </AuthContext.Provider>

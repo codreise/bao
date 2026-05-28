@@ -33,21 +33,21 @@ const AuthenticatedApp = () => {
 
   if (isLoadingAuth) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-background">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center glow-yellow animate-pulse">
+      <div className="fixed inset-0 flex items-center justify-center bg-background transition-opacity duration-300">
+        <div className="flex flex-col items-center gap-6">
+          <div className="w-16 h-16 rounded-3xl bg-primary flex items-center justify-center glow-yellow animate-pulse transform scale-100 transition-transform">
             <span className="text-lg font-black text-primary-foreground">B</span>
           </div>
-          <div className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+          <div className="w-6 h-6 border-[3px] border-primary/20 border-t-primary rounded-full animate-spin" />
         </div>
       </div>
     );
   }
 
   if (authError) {
-    if (authError.type === 'user_not_registered' || authError.type === 'auth_failed') {
+    if (authError.type === 'auth_failed') {
       return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
+    } else if (authError.type === 'auth_required' || authError.type === 'user_not_registered') {
       // For Telegram MVP, we usually auto-auth or show error.
       return null;
     }
@@ -55,6 +55,7 @@ const AuthenticatedApp = () => {
 
   return (
     <CartProvider>
+      <div className="flex-1 flex flex-col min-h-screen overflow-y-auto pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]">
       <Routes>
         <Route element={<AppShell />}>
           <Route path="/" element={<Home />} />
@@ -67,6 +68,7 @@ const AuthenticatedApp = () => {
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+      </div>
     </CartProvider>
   );
 };

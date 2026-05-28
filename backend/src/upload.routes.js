@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const uploadController = require('../controllers/upload.controller');
-const asyncHandler = require('../middleware/asyncHandler');
+const uploadController = require('./upload.controller');
+const asyncHandler = require('./asyncHandler');
 
 router.post('/', asyncHandler(uploadController.uploadFile));
 

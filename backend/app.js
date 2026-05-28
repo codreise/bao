@@ -3,9 +3,10 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
-const env = require('./config/env');
-const routes = require('./routes');
-const errorHandler = require('./middleware/error.middleware');
+const env = require('./env'); // Файл лежить в тій же папці
+// Переконайтеся, що ці файли існують:
+const routes = require('./routes'); 
+const errorHandler = require('./middleware/error.middleware'); 
 
 const app = express();
 
