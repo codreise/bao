@@ -3,13 +3,16 @@ import BottomNav from './BottomNav';
 
 export default function AppShell() {
   return (
-    // Використовуємо класи top-0 left-0 та жорстку висоту екрана
-    <div className="absolute top-0 left-0 w-full h-[var(--tg-viewport-height,100vh)] bg-background flex flex-col overflow-hidden">
+    // Додаємо pt-[var(--tg-safe-area-inset-top,0px)] 
+    // або стиль безпосередньо, щоб посунути лише контент вниз
+    <div className="fixed inset-0 h-full w-full bg-background flex flex-col overflow-hidden pt-[var(--tg-safe-area-inset-top,24px)]">
       
+      {/* Контентна зона */}
       <main className="flex-1 overflow-y-auto pb-20">
         <Outlet />
       </main>
       
+      {/* Нижня навігація */}
       <BottomNav />
     </div>
   );
