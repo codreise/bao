@@ -27,7 +27,10 @@ export default function AddProduct() {
     
     try {
       // Placeholder endpoint for file uploads
-      const { file_url } = await api.post('/upload', formData);
+      const response = await api.post('/upload', formData);
+      // Fallback for mock/placeholder testing
+      const file_url = response?.file_url || URL.createObjectURL(file);
+      
       setForm((prev) => ({ ...prev, image_url: file_url }));
     } catch (error) {
       console.error("Upload failed:", error);
