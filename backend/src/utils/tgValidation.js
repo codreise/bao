@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { z } = require('zod');
+// const { z } = require('zod'); // Zod is not used directly in this file, only in env.js
 
 exports.validateTelegramInitData = (initData, botToken) => {
   const urlParams = new URLSearchParams(initData);

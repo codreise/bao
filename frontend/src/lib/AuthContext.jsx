@@ -14,7 +14,26 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initAuth = async () => {
       setAuthError(null);
-      if (appParams.token) {
+      
+      // Check for Telegram WebApp initData
+      const tg = window.Telegram?.WebApp;
+      const initData = tg?.initData;
+
+      if (initData) {
+        try {
+          setIsLoadingAuth(true);
+          const { token, user: userData } = await api.post('/auth/telegram', { initData });
+          localStorage.setItem('token', token);
+          setUser(userData);
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error('Telegram auth failed:', error);
+          setAuthError({ type: 'auth_failed', message: 'Failed to authenticate with Telegram' });
+        } finally {
+          setIsLoadingAuth(false);
+          setAuthChecked(true);
+        }
+      } else if (appParams.token) {
         await checkUserAuth();
       } else {
         setIsLoadingAuth(false);

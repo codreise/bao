@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
-const env = require('../config/env');
-const logger = require('../config/logger');
+const env = require('../config/env'); // Correct relative path
+const logger = require('../config/logger'); // Correct relative path
 
 const pool = new Pool({
   connectionString: env.DATABASE_URL,

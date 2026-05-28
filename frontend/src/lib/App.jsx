@@ -18,7 +18,7 @@ import SellerDashboard from './pages/SellerDashboard';
 import AddProduct from './pages/AddProduct';
 
 const AuthenticatedApp = () => {
-  const { isLoadingAuth, authError, navigateToLogin } = useAuth();
+  const { isLoadingAuth, authError, navigateToLogin, isAuthenticated } = useAuth();
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
@@ -45,10 +45,10 @@ const AuthenticatedApp = () => {
   }
 
   if (authError) {
-    if (authError.type === 'user_not_registered') {
+    if (authError.type === 'user_not_registered' || authError.type === 'auth_failed') {
       return <UserNotRegisteredError />;
     } else if (authError.type === 'auth_required') {
-      navigateToLogin();
+      // For Telegram MVP, we usually auto-auth or show error.
       return null;
     }
   }
