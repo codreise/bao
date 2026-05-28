@@ -21,15 +21,35 @@ const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
   useEffect(() => {
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.ready();
-      tg.expand();
-      if (tg.themeParams?.bg_color) {
-        tg.setHeaderColor(tg.themeParams.bg_color);
-      }
+  const tg = window.Telegram?.WebApp;
+  if (tg) {
+    tg.ready();
+    tg.expand(); // Розгортаємо на весь екран
+    
+    if (tg.themeParams?.bg_color) {
+      tg.setHeaderColor(tg.themeParams.bg_color);
     }
-  }, []);
+
+    // --- НАШ ФІКС ВІДСТУПУ ---
+    // Насильно кажемо Telegram зафарбувати статус-бар у колір додатку,
+    // щоб навіть якщо є мікро-зазор, він не виглядав як "дірка"
+    if (tg.setHeaderColor) {
+      tg.setHeaderColor('bg_color'); 
+    }
+    
+    // Фікс для iOS/Android: примусове розтягування контейнера під реальну висоту Telegram-вікна
+    const overflowFix = () => {
+      document.documentElement.style.setProperty('--tg-viewport-height', `${window.innerHeight}px`);
+      document.body.style.height = `${window.innerHeight}px`;
+    };
+    
+    window.addEventListener('resize', overflowFix);
+    overflowFix(); // Викликаємо відразу
+
+    return () => window.removeEventListener('resize', overflowFix);
+    // ------------------------
+  }
+}, []);
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
