@@ -3,15 +3,19 @@ import { appParams } from './app-params';
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 async function request(endpoint, options = {}) {
-  const token = appParams.token;
-  
+  const token =
+    appParams.token ||
+    localStorage.getItem('token') ||
+    localStorage.getItem('access_token');
+
+  const isFormData = options.body instanceof FormData;
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    headers: {
-      ...(!(options.body instanceof FormData) ? { 'Content-Type': 'application/json' } : {}),
-      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-      ...options.headers,
-    },
     ...options,
+    headers: {
+      ...(!isFormData ? { 'Content-Type': 'application/json' } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(options.headers || {}),
+    },
   });
 
   let data = null;
@@ -28,7 +32,7 @@ async function request(endpoint, options = {}) {
     throw error;
   }
 
-  return data;
+  return data?.data ?? data;
 }
 
 export const api = {

@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
           setIsLoadingAuth(false);
           setAuthChecked(true);
         }
-      } else if (appParams.token) {
+      } else if (appParams.token || localStorage.getItem('token') || localStorage.getItem('access_token')) {
         await checkUserAuth();
       } else {
         setIsLoadingAuth(false);
@@ -73,6 +73,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setIsAuthenticated(false);
     
+    localStorage.removeItem('base44_access_token');
     localStorage.removeItem('access_token');
     localStorage.removeItem('token');
 

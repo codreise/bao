@@ -18,6 +18,7 @@ export function CartProvider({ children }) {
         title: product.title,
         price: product.price,
         image_url: product.image_url,
+        seller_id: product.seller_id || null,
         quantity: 1,
       }];
     });

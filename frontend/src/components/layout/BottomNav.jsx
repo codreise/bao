@@ -1,11 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Grid3X3, ShoppingBag, LayoutDashboard } from 'lucide-react';
+import { Home, Grid3X3, ShoppingBag, LayoutDashboard, PackageOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const navItems = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/explore', icon: Grid3X3, label: 'Explore' },
   { path: '/cart', icon: ShoppingBag, label: 'Cart' },
+  { path: '/orders', icon: PackageOpen, label: 'Orders' },
   { path: '/dashboard', icon: LayoutDashboard, label: 'Seller' },
 ];
 

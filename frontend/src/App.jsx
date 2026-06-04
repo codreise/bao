@@ -14,6 +14,8 @@ import Explore from './pages/Explore';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import MyOrders from './pages/MyOrders';
+import MyOrderDetails from './pages/MyOrderDetails';
 import SellerDashboard from './pages/SellerDashboard';
 import AddProduct from './pages/AddProduct';
 
@@ -60,6 +62,8 @@ const AuthenticatedApp = () => {
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<MyOrders />} />
+          <Route path="/orders/:id" element={<MyOrderDetails />} />
           <Route path="/dashboard" element={<SellerDashboard />} />
         </Route>
         <Route path="/product/:id" element={<ProductDetails />} />

@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
 
 function CartItem({ item, onUpdateQuantity, onRemove }) {
+  const price = Number(item.price || 0);
   return (
     <motion.div
       layout
@@ -25,7 +26,7 @@ function CartItem({ item, onUpdateQuantity, onRemove }) {
       <div className="flex-1 min-w-0 flex flex-col justify-between">
         <div>
           <h3 className="text-sm font-semibold truncate">{item.title}</h3>
-          <p className="text-sm font-bold text-primary mt-0.5">${item.price?.toFixed(2)}</p>
+          <p className="text-sm font-bold text-primary mt-0.5">${price.toFixed(2)}</p>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

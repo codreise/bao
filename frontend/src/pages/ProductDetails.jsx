@@ -1,26 +1,24 @@
 import React from 'react';
-import { api } from "@/lib/api";
+import { api } from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ShoppingCart, Heart, Share2, Star } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { Badge } from '@/components/ui/badge';
 
 export default function ProductDetails() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const productId = window.location.pathname.split('/product/')[1];
+  const { id } = useParams();
   const navigate = useNavigate();
   const { addItem } = useCart();
 
-  const { data: products = [] } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => api.entities.Product.list('-created_date', 100),
+  const { data: product, isLoading, isError } = useQuery({
+    queryKey: ['product', id],
+    queryFn: () => api.get(`/products/${id}`),
+    enabled: Boolean(id),
   });
 
-  const product = products.find((p) => p.id === productId);
-
-  if (!product) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -28,9 +26,27 @@ export default function ProductDetails() {
     );
   }
 
+  if (isError || !product) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen px-6 text-center">
+        <p className="text-lg font-bold">Product not found</p>
+        <p className="text-sm text-muted-foreground mt-2">
+          The item may have been removed or the link is invalid.
+        </p>
+        <button
+          onClick={() => navigate('/explore')}
+          className="mt-4 px-4 py-2 rounded-xl bg-primary text-primary-foreground font-semibold"
+        >
+          Back to Explore
+        </button>
+      </div>
+    );
+  }
+
+  const price = Number(product.price || 0);
+
   return (
     <div className="min-h-screen">
-      {/* Image Section */}
       <div className="relative aspect-square bg-card">
         {product.image_url ? (
           <img src={product.image_url} alt={product.title} className="w-full h-full object-cover" />
@@ -42,7 +58,6 @@ export default function ProductDetails() {
           </div>
         )}
 
-        {/* Top bar */}
         <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-4">
           <button
             onClick={() => navigate(-1)}
@@ -61,7 +76,6 @@ export default function ProductDetails() {
         </div>
       </div>
 
-      {/* Details Panel */}
       <motion.div
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -98,13 +112,12 @@ export default function ProductDetails() {
         )}
       </motion.div>
 
-      {/* Bottom Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50">
         <div className="max-w-lg mx-auto glass-card bg-background/95 border-t border-border/50 px-5 py-4">
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-[10px] text-muted-foreground font-medium">Price</p>
-              <p className="text-xl font-bold">${product.price?.toFixed(2)}</p>
+              <p className="text-xl font-bold">${price.toFixed(2)}</p>
             </div>
             <button
               onClick={() => {

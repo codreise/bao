@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { api } from "@/lib/api";
+import { api } from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import SearchBar from '../components/store/SearchBar';
@@ -25,13 +25,14 @@ export default function Explore() {
 
   const { data: products = [], isLoading } = useQuery({
     queryKey: ['products'],
-    queryFn: () => api.entities.Product.list('-created_date', 100),
+    queryFn: () => api.get('/products'),
   });
 
-  const filtered = products.filter((p) => {
-    const matchSearch = !search || p.title?.toLowerCase().includes(search.toLowerCase());
-    const matchCat = activeCategory === 'all' || p.category === activeCategory;
-    return matchSearch && matchCat && p.status !== 'draft';
+  const filtered = products.filter((product) => {
+    const title = product.title || '';
+    const matchSearch = !search || title.toLowerCase().includes(search.toLowerCase());
+    const matchCat = activeCategory === 'all' || product.category === activeCategory;
+    return matchSearch && matchCat && product.status !== 'draft';
   });
 
   return (
@@ -48,13 +49,13 @@ export default function Explore() {
       <SearchBar value={search} onChange={setSearch} placeholder="Search marketplace..." />
 
       <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-        {categories.map((cat) => (
+        {categories.map((category) => (
           <CategoryPill
-            key={cat.key}
-            label={cat.label}
-            icon={cat.icon}
-            isActive={activeCategory === cat.key}
-            onClick={() => setActiveCategory(cat.key)}
+            key={category.key}
+            label={category.label}
+            icon={category.icon}
+            isActive={activeCategory === category.key}
+            onClick={() => setActiveCategory(category.key)}
           />
         ))}
       </div>

@@ -10,6 +10,7 @@ const statusStyles = {
 };
 
 export default function OrderRow({ order }) {
+  const total = Number(order.total || 0);
   const firstItem = order.items?.[0];
   return (
     <div className="flex items-center justify-between py-3 border-b border-border/30 last:border-0">
@@ -34,7 +35,7 @@ export default function OrderRow({ order }) {
         <Badge className={`text-[10px] border ${statusStyles[order.status] || statusStyles.pending}`}>
           {order.status || 'pending'}
         </Badge>
-        <span className="text-sm font-bold">${order.total?.toFixed(2)}</span>
+        <span className="text-sm font-bold">${total.toFixed(2)}</span>
       </div>
     </div>
   );

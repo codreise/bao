@@ -3,6 +3,7 @@ import { ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function ProductCard({ product, onAddToCart }) {
+  const price = Number(product.price || 0);
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -35,7 +36,7 @@ export default function ProductCard({ product, onAddToCart }) {
             </p>
             <h3 className="text-sm font-semibold mt-0.5 truncate">{product.title}</h3>
             <div className="flex items-center justify-between mt-2">
-              <span className="text-sm font-bold">${product.price?.toFixed(2)}</span>
+              <span className="text-sm font-bold">${price.toFixed(2)}</span>
               <button
                 onClick={(e) => {
                   e.preventDefault();

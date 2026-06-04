@@ -1,4 +1,4 @@
-const pool = require('../db/pool');
+const pool = require('./db/pool');
 
 exports.findAll = async () => {
   const result = await pool.query('SELECT * FROM products ORDER BY created_at DESC');

@@ -1,4 +1,4 @@
-const pool = require('../db/pool');
+const pool = require('./db/pool');
 
 exports.upsertUser = async ({ id, first_name, last_name, username }) => {
   const result = await pool.query(
