@@ -23,15 +23,18 @@ const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
   useEffect(() => {
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.ready();
-      tg.expand();
-      if (tg.themeParams?.bg_color) {
-        tg.setHeaderColor(tg.themeParams.bg_color);
-      }
+  const tg = window.Telegram?.WebApp;
+  if (tg) {
+    tg.ready();
+    
+    // Запитуємо у Telegram справжній повноекранний режим
+    if (tg.requestFullscreen) {
+      tg.requestFullscreen();
+    } else {
+      tg.expand(); // Фолбек для старих версій Telegram
     }
-  }, []);
+  }
+}, []);
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (

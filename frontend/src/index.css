@@ -83,10 +83,25 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
+  /* Жорстко фіксуємо всі базові контейнери на 100% екрана без відступів */
+  html, body, #root {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+  }
+
   body {
     @apply bg-background text-foreground font-inter;
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch; /* Плавний скрол для iOS */
   }
 }
 
